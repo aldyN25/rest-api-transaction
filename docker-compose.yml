@@ -1,0 +1,79 @@
+version: '3.7'
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/usr/share/nginx/html
+  mysql-db:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    environment:
+#      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "eta"
+      MYSQL_DATABASE: "user-task-apps"
+      MYSQL_ROOT_PASSWORD: "eta"
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - /home/xii34/database-docker/mysql:/var/lib/mysql
+  postgres-db:
+    image: postgres:12
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      # <Port exposed> : < Postgres Port running inside container>
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - /home/xii34/database-docker/postgres:/var/lib/postgresql/data
+  redis-db:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+#  mongo:
+#    image: mongo
+#    container_name: mongodb
+#    restart: "no"
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - /home/xii34/database-docker/mongo:/data/db
+  # adminer:
+  #   image: adminer
+  #   container_name: adminer
+  #   restart: "no"
+  #   ports:
+  #     - 9000:8080
+  #   environment:
+  #     - ADMINER_DESIGN='nette'
+  # pma:
+  #   image: phpmyadmin
+  #   container_name: phpmyadmin
+  #   restart: "no"
+  #   ports:
+  #     - 9001:80
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   restart: "no"
+  #   ports:
+  #     - 9002:80
+  #   environment:
+  #     - "PGADMIN_DEFAULT_EMAIL=aldynura25@gmail.com"
+  #     - "PGADMIN_DEFAULT_PASSWORD=password"
